@@ -13,6 +13,7 @@ class MainWindowController: NSWindowController {
         return "MainWindowController"
     }
     
+    // MARK: - Outlets
     @IBOutlet weak var textField: NSTextField!
     @IBOutlet weak var speakButton: NSButton!
     @IBOutlet weak var stopButton: NSButton!
@@ -22,7 +23,7 @@ class MainWindowController: NSWindowController {
 
     }
     
-    // Action Methods
+    // MARK: - Action Methods
     @IBAction func speakIt(sender: NSButton) {
         // Get typed-in text as a string
         let string = textField.stringValue
