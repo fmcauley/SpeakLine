@@ -11,6 +11,8 @@
 		ECAA57D81D2C988C0044CBD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECAA57D71D2C988C0044CBD6 /* Assets.xcassets */; };
 		ECAA57DB1D2C988C0044CBD6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECAA57D91D2C988C0044CBD6 /* MainMenu.xib */; };
 		ECAA57E61D2C988C0044CBD6 /* SpeakLineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAA57E51D2C988C0044CBD6 /* SpeakLineTests.swift */; };
+		ECAA57F21D2C98D60044CBD6 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAA57F01D2C98D60044CBD6 /* MainWindowController.swift */; };
+		ECAA57F31D2C98D60044CBD6 /* MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ECAA57F11D2C98D60044CBD6 /* MainWindowController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +34,8 @@
 		ECAA57E11D2C988C0044CBD6 /* SpeakLineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpeakLineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECAA57E51D2C988C0044CBD6 /* SpeakLineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakLineTests.swift; sourceTree = "<group>"; };
 		ECAA57E71D2C988C0044CBD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ECAA57F01D2C98D60044CBD6 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		ECAA57F11D2C98D60044CBD6 /* MainWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindowController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,8 @@
 				ECAA57D71D2C988C0044CBD6 /* Assets.xcassets */,
 				ECAA57D91D2C988C0044CBD6 /* MainMenu.xib */,
 				ECAA57DC1D2C988C0044CBD6 /* Info.plist */,
+				ECAA57F01D2C98D60044CBD6 /* MainWindowController.swift */,
+				ECAA57F11D2C98D60044CBD6 /* MainWindowController.xib */,
 			);
 			path = SpeakLine;
 			sourceTree = "<group>";
@@ -178,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ECAA57D81D2C988C0044CBD6 /* Assets.xcassets in Resources */,
+				ECAA57F31D2C98D60044CBD6 /* MainWindowController.xib in Resources */,
 				ECAA57DB1D2C988C0044CBD6 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECAA57F21D2C98D60044CBD6 /* MainWindowController.swift in Sources */,
 				ECAA57D61D2C988C0044CBD6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
