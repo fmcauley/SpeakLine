@@ -82,6 +82,8 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
      
      Some delegate proerties can be set in code or in the XIB. the NSWindowDelegate is already set for us in the XIB file
      
+     Delegate methods that use Notifications
+     
      */
     
 }
