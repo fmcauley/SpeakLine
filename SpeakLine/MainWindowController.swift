@@ -22,6 +22,8 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     let speechSynth = NSSpeechSynthesizer()
     let voices  = NSSpeechSynthesizer.availableVoices()
     
+    var voiceTableViewDelegate: VoiceTableViewDelegate!
+    
     /**didSet and willSet are observers that you can declare as part of a stored property. Implementing observers allows you to respond to the property’s value being changed.
      */
     
@@ -36,9 +38,6 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         self.updateButtons()
         speechSynth.delegate = self
         
-        for voice in voices {
-            print(voiceNameForIdentifier(identifier: voice))
-        }
         let defaultVoice = NSSpeechSynthesizer.defaultVoice()
         if let defaultRow = voices.index(of: defaultVoice) {
             let indices = NSIndexSet(index: defaultRow)
@@ -47,6 +46,9 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
             tableView.selectRowIndexes(indices as IndexSet, byExtendingSelection: false)
             tableView.scrollRowToVisible(defaultRow)
         }
+        
+        self.voiceTableViewDelegate = VoiceTableViewDelegate(tableView: self.tableView, data: voices,speechSyn:speechSynth)
+        self.tableView.delegate = self.voiceTableViewDelegate
         
     }
     
@@ -100,31 +102,31 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         let voiceName = voiceNameForIdentifier(identifier: voice)
         return voiceName
     }
-    
-    // MARK: - NSTableViewDelegate
-    func tableViewSelectionDidChange(_ notification: Notification) {
-        let row = tableView.selectedRow
-        if row == -1 {
-            speechSynth.setVoice(nil)
-            return
-        }
-        let voice = voices[row]
-        speechSynth.setVoice(voice)
-    }
-    
 }
 
     class VoiceTableViewDelegate: NSObject, NSTableViewDelegate {
         
+        var tableView: NSTableView!
+        var speechSynth: NSSpeechSynthesizer!
+        var voices: [String]!
+        
+        init(tableView: NSTableView, data: [String], speechSyn: NSSpeechSynthesizer) {
+            super.init()
+            self.speechSynth = speechSyn
+            self.tableView = tableView
+            self.voices = data
+            
+        }
+        
         // MARK: - NSTableViewDelegate
         func tableViewSelectionDidChange(_ notification: Notification) {
-            //            let row = tableView.selectedRow
-            //            if row == -1 {
-            //                speechSynth.setVoice(nil)
-            //                return
-            //            }
-            //            let voice = voices[row]
-            //            speechSynth.setVoice(voice)
+                        let row = tableView.selectedRow
+                        if row == -1 {
+                            speechSynth.setVoice(nil)
+                            return
+                        }
+                        let voice = voices[row]
+                        speechSynth.setVoice(voice)
         }
             
 }
