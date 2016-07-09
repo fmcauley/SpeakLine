@@ -22,6 +22,8 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     let speechSynth = NSSpeechSynthesizer()
     let voices  = NSSpeechSynthesizer.availableVoices()
     
+    var voiceTableViewDelegate: VoiceTableViewDelegate!
+    
     /**didSet and willSet are observers that you can declare as part of a stored property. Implementing observers allows you to respond to the property’s value being changed.
      */
     
@@ -36,9 +38,6 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         self.updateButtons()
         speechSynth.delegate = self
         
-        for voice in voices {
-            print(voiceNameForIdentifier(identifier: voice))
-        }
         let defaultVoice = NSSpeechSynthesizer.defaultVoice()
         if let defaultRow = voices.index(of: defaultVoice) {
             let indices = NSIndexSet(index: defaultRow)
@@ -47,6 +46,9 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
             tableView.selectRowIndexes(indices as IndexSet, byExtendingSelection: false)
             tableView.scrollRowToVisible(defaultRow)
         }
+        
+        self.voiceTableViewDelegate = VoiceTableViewDelegate(tableView: self.tableView, data: voices,speechSyn:speechSynth)
+        self.tableView.delegate = self.voiceTableViewDelegate
         
     }
     
@@ -100,30 +102,47 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         let voiceName = voiceNameForIdentifier(identifier: voice)
         return voiceName
     }
-    
-    // MARK: - NSTableViewDelegate
-    func tableViewSelectionDidChange(_ notification: Notification) {
-        let row = tableView.selectedRow
-        if row == -1 {
-            speechSynth.setVoice(nil)
-            return
-        }
-        let voice = voices[row]
-        speechSynth.setVoice(voice)
-    }
-    
-    /**Being a delegate 
-     
-     The first thing to understand about being a delegate is that it is a role – possibly one of many – that an object may take on. In Cocoa, roles are defined by protocols. The specific role of “delegate that serves a speech synthesizer” is defined by the NSSpeechSynthesizerDelegate protocol. To sign up for this role, an object must be an instance of a class that conforms to the NSSpeechSynthesizerDelegate protocol. 
-     
-    The beauty of having delegate roles defined by protocols (delegation) instead of classes (subclassing) is that any object whose type conforms to the protocol can serve in that capacity. Thus, you can assign critical duties without associating them with any particular object class. Moreover, an object can take on multiple roles as needed.
-     
-     This is an example of a second type of delegate method – one where the delegate can directly affect the behavior of the object as opposed to being passively informed of events.
-     
-     Some delegate proerties can be set in code or in the XIB. the NSWindowDelegate is already set for us in the XIB file
-     
-     Delegate methods that use Notifications
-     
-     */
-    
 }
+
+    class VoiceTableViewDelegate: NSObject, NSTableViewDelegate {
+        
+        var tableView: NSTableView!
+        var speechSynth: NSSpeechSynthesizer!
+        var voices: [String]!
+        
+        init(tableView: NSTableView, data: [String], speechSyn: NSSpeechSynthesizer) {
+            super.init()
+            self.speechSynth = speechSyn
+            self.tableView = tableView
+            self.voices = data
+            
+        }
+        
+        // MARK: - NSTableViewDelegate
+        func tableViewSelectionDidChange(_ notification: Notification) {
+                        let row = tableView.selectedRow
+                        if row == -1 {
+                            speechSynth.setVoice(nil)
+                            return
+                        }
+                        let voice = voices[row]
+                        speechSynth.setVoice(voice)
+        }
+            
+}
+
+// MARK: - NOTES
+
+/**Being a delegate
+ 
+ The first thing to understand about being a delegate is that it is a role – possibly one of many – that an object may take on. In Cocoa, roles are defined by protocols. The specific role of “delegate that serves a speech synthesizer” is defined by the NSSpeechSynthesizerDelegate protocol. To sign up for this role, an object must be an instance of a class that conforms to the NSSpeechSynthesizerDelegate protocol.
+ 
+ The beauty of having delegate roles defined by protocols (delegation) instead of classes (subclassing) is that any object whose type conforms to the protocol can serve in that capacity. Thus, you can assign critical duties without associating them with any particular object class. Moreover, an object can take on multiple roles as needed.
+ 
+ This is an example of a second type of delegate method – one where the delegate can directly affect the behavior of the object as opposed to being passively informed of events.
+ 
+ Some delegate proerties can be set in code or in the XIB. the NSWindowDelegate is already set for us in the XIB file
+ 
+ Delegate methods that use Notifications
+ 
+ */
