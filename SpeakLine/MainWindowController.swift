@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSWindowDelegate {
+class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSWindowDelegate, NSTableViewDataSource {
     override var windowNibName: String {
         return "MainWindowController"
     }
@@ -19,6 +19,7 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
     @IBOutlet weak var stopButton: NSButton!
     
     let speechSynth = NSSpeechSynthesizer()
+    let voices  = NSSpeechSynthesizer.availableVoices()
     
     /**didSet and willSet are observers that you can declare as part of a stored property. Implementing observers allows you to respond to the property’s value being changed.
      */
@@ -33,6 +34,10 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         super.windowDidLoad()
         self.updateButtons()
         speechSynth.delegate = self
+        
+        for voice in voices {
+            print(voiceNameForIdentifier(identifier: voice))
+        }
 
     }
     
@@ -60,6 +65,11 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
             stopButton.isEnabled = false
             speakButton.isEnabled = true
         }
+    }
+    
+    func voiceNameForIdentifier(identifier: String) -> String? {
+        let attributes = NSSpeechSynthesizer.attributes(forVoice: identifier)
+        return attributes[NSVoiceName] as? String
     }
     
     // MARK: - NSSpeechSynthesizerDelegate
