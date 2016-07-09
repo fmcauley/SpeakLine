@@ -39,7 +39,15 @@ class MainWindowController: NSWindowController, NSSpeechSynthesizerDelegate, NSW
         for voice in voices {
             print(voiceNameForIdentifier(identifier: voice))
         }
-
+        let defaultVoice = NSSpeechSynthesizer.defaultVoice()
+        if let defaultRow = voices.index(of: defaultVoice) {
+            let indices = NSIndexSet(index: defaultRow)
+            // how to convert or use IndexSet?
+        
+            tableView.selectRowIndexes(indices as IndexSet, byExtendingSelection: false)
+            tableView.scrollRowToVisible(defaultRow)
+        }
+        
     }
     
     // MARK: - Action Methods
